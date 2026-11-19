@@ -130,6 +130,15 @@ footer {
     border-top: 1px solid var(--color-border);
 }
 
+.legal-links {
+    display: block;
+    margin-top: 0.35rem;
+}
+
+.legal-links a {
+    color: var(--color-text-muted);
+}
+
 /* Mandatory LabMed Alliance credit (see NOTICE) — keep it visible. */
 .app-credit {
     margin-top: 0.35rem;

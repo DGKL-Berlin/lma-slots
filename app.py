@@ -101,7 +101,13 @@ def create_app():
         return dict(
             primary_color=get_setting('primary_color', '#2563eb')
         )
-
+    @app.context_processor
+    def inject_legal_links():
+        from helpers.settings import get_setting
+        return dict(
+            privacy_url=get_setting('privacy_url'),
+            imprint_url=get_setting('imprint_url'),
+        )
     # Register blueprints
     from routes.auth import auth_bp
     from routes.polls import polls_bp

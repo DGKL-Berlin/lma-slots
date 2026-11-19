@@ -21,6 +21,8 @@ ENV_NAMES = {
     'org_name': 'ORG_NAME',
     'header_title': 'HEADER_TITLE',
     'primary_color': 'PRIMARY_COLOR',
+    'privacy_url': 'PRIVACY_URL',
+    'imprint_url': 'IMPRINT_URL',
     'smtp_host': 'SMTP_HOST',
     'smtp_port': 'SMTP_PORT',
     'smtp_security': 'SMTP_SECURITY',
