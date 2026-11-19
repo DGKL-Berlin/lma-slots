@@ -239,7 +239,13 @@ footer {
 .about-page h1 { font-size: 1.4rem; margin-bottom: 0.5rem; }
 .about-page h2 { font-size: 1.1rem; margin: 1.25rem 0 0.4rem; }
 .about-page p { margin-bottom: 0.5rem; }
-.about-page a { color: var(--color-primary); }
+.about-page a {
+    color: #667085;
+}
+
+.about-page a:hover {
+    color: #344054;
+}
 .about-page .text-muted { color: var(--color-text-muted); }
 .about-logo { display: inline-block; margin-bottom: 0.75rem; }
 
