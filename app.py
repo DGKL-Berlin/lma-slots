@@ -88,8 +88,12 @@ def create_app():
         # Operator name and logo for the header. The footer credit stays regardless.
         from helpers.branding import get_branding
         info = get_branding()
-        return dict(org_name=info['org_name'], org_logo=info['org_logo'],
-                    brand_name=info['org_name'] or g.t['app_name'])
+        return dict(
+            org_name=info['org_name'],
+            org_logo=info['org_logo'],
+            header_title=info['header_title'] or g.t['app_name'],
+            brand_name=info['header_title'] or info['org_name'] or g.t['app_name'],
+        )
 
     # Register blueprints
     from routes.auth import auth_bp
