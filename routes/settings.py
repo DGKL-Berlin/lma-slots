@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026 Janne Cadamuro / LabMed Alliance Inc. — see LICENSE and NOTICE
 """Admin page for instance settings (public URL, language, branding, SMTP)."""
+import re
+
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, g, abort, send_from_directory
 from models import db, User
 from routes.auth import admin_required
@@ -13,6 +15,7 @@ TEXT_FIELDS = (
     'base_url',
     'org_name',
     'header_title',
+    'primary_color',
     'smtp_host',
     'smtp_port',
     'smtp_user',
@@ -27,17 +30,28 @@ def _validate(form):
     values = {key: form.get(key, '').strip()[:500] for key in TEXT_FIELDS}
     values['org_name'] = values['org_name'][:branding.MAX_NAME_LENGTH]
     values['header_title'] = values['header_title'][:branding.MAX_NAME_LENGTH]
+
+    if values['primary_color'] and not re.fullmatch(r'#[0-9a-fA-F]{6}', values['primary_color']):
+        return values, 'settings_invalid_color'
+
     values['default_language'] = form.get('default_language', '')
     values['smtp_security'] = form.get('smtp_security', '')
 
     if values['base_url'] and not values['base_url'].startswith(('http://', 'https://')):
         return values, 'settings_invalid_url'
-    if values['smtp_port'] and not (values['smtp_port'].isdigit() and 0 < int(values['smtp_port']) < 65536):
+
+    if values['smtp_port'] and not (
+        values['smtp_port'].isdigit()
+        and 0 < int(values['smtp_port']) < 65536
+    ):
         return values, 'settings_invalid_port'
+
     if values['smtp_from'] and '@' not in values['smtp_from']:
         return values, 'settings_invalid_from'
+
     if values['default_language'] not in LANGUAGES or values['smtp_security'] not in SECURITY_MODES:
         return values, 'invalid_input'
+
     return values, None
 
 
