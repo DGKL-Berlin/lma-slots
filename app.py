@@ -41,6 +41,7 @@ def create_app():
     app.config['SESSION_PERMANENT'] = True
     app.config['PERMANENT_SESSION_LIFETIME'] = 86400 * 30  # 30 days
     app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
     app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  # logo upload is the largest request
 
