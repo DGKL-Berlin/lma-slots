@@ -9,7 +9,15 @@ from helpers import branding
 
 settings_bp = Blueprint('settings', __name__)
 
-TEXT_FIELDS = ('base_url', 'org_name', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_from')
+TEXT_FIELDS = (
+    'base_url',
+    'org_name',
+    'header_title',
+    'smtp_host',
+    'smtp_port',
+    'smtp_user',
+    'smtp_from',
+)
 LANGUAGES = ('', 'de', 'en')
 SECURITY_MODES = ('', 'starttls', 'ssl', 'none')
 
@@ -18,6 +26,7 @@ def _validate(form):
     """Return (values, error_key). Empty strings mean 'use environment or default'."""
     values = {key: form.get(key, '').strip()[:500] for key in TEXT_FIELDS}
     values['org_name'] = values['org_name'][:branding.MAX_NAME_LENGTH]
+    values['header_title'] = values['header_title'][:branding.MAX_NAME_LENGTH]
     values['default_language'] = form.get('default_language', '')
     values['smtp_security'] = form.get('smtp_security', '')
 

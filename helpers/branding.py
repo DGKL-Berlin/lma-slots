@@ -64,4 +64,11 @@ def remove_logo():
 
 
 def get_branding():
-    return {'org_name': get_setting('org_name'), 'org_logo': get_stored('org_logo')}
+    org_name = get_setting('org_name')
+    header_title = get_setting('header_title') or org_name
+
+    return {
+        'org_name': org_name,
+        'header_title': header_title,
+        'org_logo': get_stored('org_logo'),
+    }

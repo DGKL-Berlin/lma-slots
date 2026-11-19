@@ -19,6 +19,7 @@ ENV_NAMES = {
     'base_url': 'BASE_URL',
     'default_language': 'DEFAULT_LANGUAGE',
     'org_name': 'ORG_NAME',
+    'header_title': 'HEADER_TITLE',
     'smtp_host': 'SMTP_HOST',
     'smtp_port': 'SMTP_PORT',
     'smtp_security': 'SMTP_SECURITY',
