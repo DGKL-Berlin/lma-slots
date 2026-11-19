@@ -18,6 +18,26 @@
                 <span class="hint">{{ t.settings_base_url_hint }}</span>
             </div>
             <div class="form-group">
+                <label for="privacy_url">{{ t.settings_privacy_url }}</label>
+                <input type="url"
+                    id="privacy_url"
+                    name="privacy_url"
+                    value="{{ values.privacy_url }}"
+                    placeholder="{{ env.privacy_url or 'https://example.com/privacy' }}">
+                <span class="hint">{{ t.settings_privacy_url_hint }}</span>
+            </div>
+
+            <div class="form-group">
+                <label for="imprint_url">{{ t.settings_imprint_url }}</label>
+                <input type="url"
+                    id="imprint_url"
+                    name="imprint_url"
+                    value="{{ values.imprint_url }}"
+                    placeholder="{{ env.imprint_url or 'https://example.com/imprint' }}">
+                <span class="hint">{{ t.settings_imprint_url_hint }}</span>
+            </div>
+
+            <div class="form-group">
                 <label for="default_language">{{ t.settings_default_language }}</label>
                 <select id="default_language" name="default_language">
                     <option value="">{{ t.settings_use_default }} ({{ env.default_language or 'de' }})</option>

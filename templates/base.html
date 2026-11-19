@@ -75,7 +75,23 @@
     </main>
 
     <footer>
+
         <p>{{ t.app_name }} &mdash; {{ t.app_subtitle }} | {{ t.timezone }}: <span id="user-timezone"></span></p>
+
+        {% if privacy_url or imprint_url %}
+        <p class="legal-links">
+            {% if privacy_url %}
+            <a href="{{ privacy_url }}" rel="noopener">{{ t.privacy }}</a>
+            {% endif %}
+            {% if privacy_url and imprint_url %}
+            &middot;
+            {% endif %}
+            {% if imprint_url %}
+            <a href="{{ imprint_url }}" rel="noopener">{{ t.imprint }}</a>
+            {% endif %}
+        </p>
+        {% endif %}
+
         {# Mandatory attribution (AGPL section 7(b), see NOTICE) - do not remove or hide. #}
         <p class="app-credit">
             <a href="{{ app_info.ORGANIZATION_URL }}" class="lma-credit" rel="noopener">
@@ -85,6 +101,7 @@
             &middot; <a href="{{ url_for('about.about') }}">{{ t.about }}</a>
             &middot; <a href="{{ url_for('about.about') }}">{{ t.open_source }}, {{ app_info.LICENSE_SPDX }}</a>
         </p>
+
     </footer>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>

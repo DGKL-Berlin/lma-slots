@@ -16,6 +16,8 @@ TEXT_FIELDS = (
     'org_name',
     'header_title',
     'primary_color',
+    'privacy_url',
+    'imprint_url',
     'smtp_host',
     'smtp_port',
     'smtp_user',
@@ -39,6 +41,9 @@ def _validate(form):
 
     if values['base_url'] and not values['base_url'].startswith(('http://', 'https://')):
         return values, 'settings_invalid_url'
+    for key in ('privacy_url', 'imprint_url'):
+        if values[key] and not values[key].startswith(('http://', 'https://')):
+            return values, 'settings_invalid_url'
 
     if values['smtp_port'] and not (
         values['smtp_port'].isdigit()
