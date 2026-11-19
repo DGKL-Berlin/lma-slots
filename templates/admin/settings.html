@@ -43,6 +43,14 @@
                 <span class="hint">{{ t.settings_header_title_hint }}</span>
             </div>
             <div class="form-group">
+            <label for="primary_color">{{ t.settings_primary_color }}</label>
+            <input type="color"
+                id="primary_color"
+                name="primary_color"
+                value="{{ values.primary_color or env.primary_color or '#2563eb' }}">
+                <span class="hint">{{ t.settings_primary_color_hint }}</span>
+            </div>
+            <div class="form-group">
                 <label for="org_logo">{{ t.settings_org_logo }}</label>
                 {% if logo %}
                 <img src="{{ url_for('settings.logo', name=logo) }}" alt="" class="settings-logo-preview">

@@ -95,6 +95,13 @@ def create_app():
             brand_name=info['header_title'] or info['org_name'] or g.t['app_name'],
         )
 
+    @app.context_processor
+    def inject_theme():
+        from helpers.settings import get_setting
+        return dict(
+            primary_color=get_setting('primary_color', '#2563eb')
+        )
+
     # Register blueprints
     from routes.auth import auth_bp
     from routes.polls import polls_bp
