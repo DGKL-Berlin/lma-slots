@@ -7,11 +7,19 @@ Logos live in `instance/branding/`, outside the repository.
 """
 import os
 import secrets
+from io import BytesIO
+
 from flask import current_app
+from PIL import Image, UnidentifiedImageError
+
 from helpers.settings import get_setting, get_stored, set_setting
 
 MAX_LOGO_BYTES = 512 * 1024
 MAX_NAME_LENGTH = 80
+MAX_FAVICON_BYTES = 512 * 1024
+MIN_FAVICON_SIZE = 32
+MAX_FAVICON_SIZE = 512
+
 
 #: Accepted image types, detected from the file content, not the file name.
 #: SVG is left out on purpose: it can carry scripts.
@@ -43,6 +51,32 @@ def read_logo(file_storage):
         return None, None, 'settings_logo_invalid'
     return data, ext, None
 
+def read_favicon(file_storage):
+    """Return (data, ext, error_key) for a validated square favicon."""
+    data = file_storage.read(MAX_FAVICON_BYTES + 1)
+
+    if len(data) > MAX_FAVICON_BYTES:
+        return None, None, 'settings_favicon_too_large'
+
+    ext = detect_type(data)
+    if not ext:
+        return None, None, 'settings_favicon_invalid'
+
+    try:
+        with Image.open(BytesIO(data)) as img:
+            width, height = img.size
+            img.verify()
+    except (UnidentifiedImageError, OSError):
+        return None, None, 'settings_favicon_invalid'
+
+    if width != height:
+        return None, None, 'settings_favicon_not_square'
+
+    if width < MIN_FAVICON_SIZE or width > MAX_FAVICON_SIZE:
+        return None, None, 'settings_favicon_invalid_size'
+
+    return data, ext, None
+
 
 def save_logo(data, ext):
     """Store a new logo and remove the previous one. A new name per upload avoids stale caches."""
@@ -63,6 +97,29 @@ def remove_logo():
     set_setting('org_logo', '')
 
 
+def save_favicon(data, ext):
+    """Store a new favicon and remove the previous custom favicon."""
+    os.makedirs(logo_dir(), exist_ok=True)
+    name = f'favicon-{secrets.token_hex(8)}.{ext}'
+
+    with open(os.path.join(logo_dir(), name), 'wb') as f:
+        f.write(data)
+
+    remove_favicon()
+    set_setting('favicon', name)
+
+
+def remove_favicon():
+    old = get_stored('favicon')
+
+    if old:
+        path = os.path.join(logo_dir(), os.path.basename(old))
+        if os.path.exists(path):
+            os.remove(path)
+
+    set_setting('favicon', '')
+
+
 def get_branding():
     org_name = get_setting('org_name')
     header_title = get_setting('header_title') or org_name
@@ -71,4 +128,5 @@ def get_branding():
         'org_name': org_name,
         'header_title': header_title,
         'org_logo': get_stored('org_logo'),
+        'favicon': get_stored('favicon'),
     }

@@ -77,6 +77,15 @@ def edit():
                 flash(g.t[error], 'error')
                 return render_template('admin/settings.html', values=values, **_context())
 
+        favicon = request.files.get('favicon')
+        favicon_data = None
+        favicon_ext = None
+        if favicon and favicon.filename and not request.form.get('favicon_clear'):
+            favicon_data, favicon_ext, error = branding.read_favicon(favicon)
+            if error:
+                flash(g.t[error], 'error')
+                return render_template('admin/settings.html', values=values, **_context())
+
         for key, value in values.items():
             set_setting(key, value)
         password = request.form.get('smtp_pass', '')
@@ -88,6 +97,10 @@ def edit():
             branding.remove_logo()
         elif logo_data:
             branding.save_logo(logo_data, logo_ext)
+        if request.form.get('favicon_clear'):
+            branding.remove_favicon()
+        elif favicon_data:
+            branding.save_favicon(favicon_data, favicon_ext)
         db.session.commit()
         flash(g.t['settings_saved'], 'success')
         return redirect(url_for('settings.edit'))
@@ -113,6 +126,23 @@ def logo(name):
     ext = name.rsplit('.', 1)[-1]
     response = send_from_directory(branding.logo_dir(), name, mimetype=branding.MIMETYPES.get(ext),
                                    max_age=86400 * 30)
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response
+
+
+@settings_bp.route('/branding/favicon/<name>')
+def favicon(name):
+    """Serve the current custom favicon."""
+    if not name or name != get_stored('favicon'):
+        abort(404)
+
+    ext = name.rsplit('.', 1)[-1]
+    response = send_from_directory(
+        branding.logo_dir(),
+        name,
+        mimetype=branding.MIMETYPES.get(ext),
+        max_age=86400 * 30
+    )
     response.headers['X-Content-Type-Options'] = 'nosniff'
     return response
 

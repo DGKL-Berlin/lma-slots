@@ -91,6 +91,7 @@ def create_app():
         return dict(
             org_name=info['org_name'],
             org_logo=info['org_logo'],
+            favicon=info['favicon'],
             header_title=info['header_title'] or g.t['app_name'],
             brand_name=info['header_title'] or info['org_name'] or g.t['app_name'],
         )

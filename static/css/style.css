@@ -1094,6 +1094,14 @@ textarea { resize: vertical; }
     margin-bottom: 0.5rem;
 }
 
+.settings-favicon-preview {
+    display: block;
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
 /* Update badge in the header and /admin/update */
 .update-badge {
     position: relative;

@@ -83,6 +83,25 @@
                 </label>
                 {% endif %}
             </div>
+            <div class="form-group">
+                <label for="favicon">{{ t.settings_favicon }}</label>
+                {% if favicon %}
+                <img src="{{ url_for('settings.favicon', name=favicon) }}"
+                alt=""
+                class="settings-favicon-preview">
+                {% endif %}
+                <input type="file"
+                    id="favicon"
+                    name="favicon"
+                    accept="image/png,image/jpeg,image/webp">
+                <span class="hint">{{ t.settings_favicon_hint }}</span>
+                {% if favicon %}
+                <label class="checkbox-label">
+                    <input type="checkbox" name="favicon_clear" value="1">
+                    {{ t.settings_favicon_clear }}
+                </label>
+                {% endif %}
+            </div>
         </fieldset>
 
         <fieldset>
