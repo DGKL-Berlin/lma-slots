@@ -20,6 +20,7 @@ ENV_NAMES = {
     'default_language': 'DEFAULT_LANGUAGE',
     'org_name': 'ORG_NAME',
     'header_title': 'HEADER_TITLE',
+    'show_header_title': 'SHOW_HEADER_TITLE',
     'primary_color': 'PRIMARY_COLOR',
     'privacy_url': 'PRIVACY_URL',
     'imprint_url': 'IMPRINT_URL',

@@ -65,12 +65,16 @@ def _validate(form):
 def edit():
     if request.method == 'POST':
         values, error = _validate(request.form)
+
         if error:
             flash(g.t[error], 'error')
             return render_template('admin/settings.html', values=values, **_context())
 
+        show_header_title = '1' if request.form.get('show_header_title') else '0'
+
         logo = request.files.get('org_logo')
         logo_data = None
+        logo_ext = None
         if logo and logo.filename and not request.form.get('org_logo_clear'):
             logo_data, logo_ext, error = branding.read_logo(logo)
             if error:
@@ -88,19 +92,25 @@ def edit():
 
         for key, value in values.items():
             set_setting(key, value)
+
+        set_setting('show_header_title', show_header_title)
+
         password = request.form.get('smtp_pass', '')
         if request.form.get('smtp_pass_clear'):
             set_setting('smtp_pass', '')
         elif password:
             set_setting('smtp_pass', password[:500])
+
         if request.form.get('org_logo_clear'):
             branding.remove_logo()
         elif logo_data:
             branding.save_logo(logo_data, logo_ext)
+
         if request.form.get('favicon_clear'):
             branding.remove_favicon()
         elif favicon_data:
             branding.save_favicon(favicon_data, favicon_ext)
+
         db.session.commit()
         flash(g.t['settings_saved'], 'success')
         return redirect(url_for('settings.edit'))

@@ -32,9 +32,9 @@
                     {% else %}
                     <img src="{{ url_for('static', filename='img/lma-logo-mark.svg') }}" alt="" class="logo-img" width="28" height="28">
                     {% endif %}
-                   {% if header_title %}
-                   <span>{{ header_title }}</span>
-                   {% endif %}
+                    {% if show_header_title and header_title %}
+                    <span>{{ header_title }}</span>
+                    {% endif %}
                 </a>
             </div>
             <div class="nav-right">
