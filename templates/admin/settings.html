@@ -62,6 +62,13 @@
                        placeholder="{{ env.header_title or values.org_name or env.org_name or t.app_name }}">
                 <span class="hint">{{ t.settings_header_title_hint }}</span>
             </div>
+            <label class="checkbox-label header-title-checkbox">
+                <input type="checkbox"
+                    name="show_header_title"
+                    value="1"
+                    {% if values.show_header_title != '0' %}checked{% endif %}>
+                {{ t.settings_show_header_title }}
+            </label>
             <div class="form-group">
             <label for="primary_color">{{ t.settings_primary_color }}</label>
             <input type="color"

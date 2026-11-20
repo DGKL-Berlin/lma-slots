@@ -93,6 +93,7 @@ def create_app():
             org_logo=info['org_logo'],
             favicon=info['favicon'],
             header_title=info['header_title'] or g.t['app_name'],
+            show_header_title=info['show_header_title'],
             brand_name=info['header_title'] or info['org_name'] or g.t['app_name'],
         )
 

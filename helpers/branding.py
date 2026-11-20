@@ -123,10 +123,12 @@ def remove_favicon():
 def get_branding():
     org_name = get_setting('org_name')
     header_title = get_setting('header_title') or org_name
+    show_header_title = get_setting('show_header_title', '1') != '0'
 
     return {
         'org_name': org_name,
         'header_title': header_title,
+        'show_header_title': show_header_title,
         'org_logo': get_stored('org_logo'),
         'favicon': get_stored('favicon'),
     }

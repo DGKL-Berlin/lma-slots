@@ -215,6 +215,10 @@ footer {
     font-weight: 400;
 }
 
+.header-title-checkbox {
+    font-size: 0.8rem;
+}
+
 .checkbox-label input { width: auto; }
 
 .settings-test {
